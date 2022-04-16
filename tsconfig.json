@@ -7,7 +7,12 @@
       "@/*": ["./src/*"]
     }
   },
-
+  "importHelpers": true,
+  "moduleResolution": "node",
+  "skipLibCheck": true,
+  "sourceMap": true,
+  "allowSyntheticDefaultImports": true,
+  "esModuleInterop": true,
   "references": [
     {
       "path": "./tsconfig.vite-config.json"

@@ -36,12 +36,20 @@
         <div>UUID: 123AS123123AED89103</div>
       </div>
     </div>
+    <div v-if="result && result.users">
+      <p v-for="user in result.users" :key="user.id">
+        id: {{ user.id }} name: {{ user.name }}
+      </p>
+    </div>
+    <div></div>
   </div>
 </template>
-
 <script setup lang="ts">
-import SearchResultItem from "@/components/SearchResultItem.vue";
+import * as Search from "@/components/Search.vue";
+import * as SearchResultItem from "@/components/SearchResultItem.vue";
 import { ref, onMounted, nextTick } from "vue";
+import gql from "graphql-tag";
+import { useQuery } from "@vue/apollo-composable";
 
 const searchInput = ref();
 
@@ -80,6 +88,22 @@ const searchResultItemContextList: SearchResultItemContext[] = [
     howOld: "2 Years",
   },
 ];
+const CHARACTERS_QUERY = gql`
+  query Query {
+    users {
+      id
+      name
+      age
+      posts {
+        id
+        content
+        age
+      }
+    }
+  }
+`;
+const { result } = useQuery(CHARACTERS_QUERY);
+console.log("result: ", result);
 </script>
 
 <style lang="stylus" scoped>

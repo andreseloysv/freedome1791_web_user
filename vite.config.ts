@@ -11,7 +11,14 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+  optimizeDeps: {
+    include: [
+      "zen-observable",
+      "fast-json-stable-stringify",
+      "@vue/apollo-composable",
+    ],
+  },
   server: {
-    host: "192.168.0.28"
-  }
+    host: "192.168.0.28",
+  },
 });
