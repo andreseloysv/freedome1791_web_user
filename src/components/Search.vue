@@ -45,8 +45,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import * as Search from "@/components/Search.vue";
-import * as SearchResultItem from "@/components/SearchResultItem.vue";
+import SearchResultItem from "@/components/SearchResultItem.vue";
 import { ref, onMounted, nextTick } from "vue";
 import gql from "graphql-tag";
 import { useQuery } from "@vue/apollo-composable";
@@ -58,7 +57,14 @@ onMounted(() => {});
 defineProps<{
   msg: string;
 }>();
-
+interface SearchResultItemContext {
+  title: string;
+  description: string;
+  imageUrl: string;
+  domain: string;
+  viewsCount: string;
+  howOld: string;
+}
 const searchResultItemContextList: SearchResultItemContext[] = [
   {
     title: "Anarcocapitalismo - Wikipedia, la enciclopedia libre",
@@ -103,7 +109,6 @@ const CHARACTERS_QUERY = gql`
   }
 `;
 const { result } = useQuery(CHARACTERS_QUERY);
-console.log("result: ", result);
 </script>
 
 <style lang="stylus" scoped>

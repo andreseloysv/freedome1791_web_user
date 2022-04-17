@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-interface SearchResultItemContext {
+export interface SearchResultItemContext {
   title: string;
   description: string;
   imageUrl: string;
