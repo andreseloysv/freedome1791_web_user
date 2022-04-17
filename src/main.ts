@@ -5,9 +5,10 @@ import { DefaultApolloClient } from "@vue/apollo-composable";
 import { ApolloClient, InMemoryCache } from "@apollo/client/core";
 
 const cache = new InMemoryCache();
+const uri = import.meta.API_URL;
 const apolloClient = new ApolloClient({
   cache,
-  uri: "http://localhost:3000/graphql",
+  uri: uri,
 });
 
 const app = createApp({
