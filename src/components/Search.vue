@@ -67,15 +67,6 @@ interface SearchResultItemContext {
 }
 const searchResultItemContextList: SearchResultItemContext[] = [
   {
-    title: "Anarcocapitalismo - Wikipedia, la enciclopedia libre",
-    description:
-      "El anarcocapitalismo se opone a toda coacción, por lo cual, defiende la libre posesión de armas. ... ​ Aunque la propiedad privada permite que sus legítimos",
-    imageUrl: "/img/trump.jpeg",
-    domain: "https://es.wikipedia.org",
-    viewsCount: "7 Millions",
-    howOld: "1 Year",
-  },
-  {
     title: "Anarcocapitalismo - Qué es, definición y concepto",
     description:
       "El anarcocapitalismo es una corriente que propone la eliminación del estado como agente económico, la supresión total de los impuestos",
