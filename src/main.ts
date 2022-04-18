@@ -5,7 +5,7 @@ import { DefaultApolloClient } from "@vue/apollo-composable";
 import { ApolloClient, InMemoryCache } from "@apollo/client/core";
 
 const cache = new InMemoryCache();
-const uri = import.meta.env.API_URL;
+const uri = import.meta.env.VITE_API_URL;
 const apolloClient = new ApolloClient({
   cache,
   uri: uri,
