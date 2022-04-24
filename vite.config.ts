@@ -18,7 +18,9 @@ export default defineConfig({
       "@vue/apollo-composable",
     ],
   },
+  /*
+  // Only to expose your localhost to the localnetwork
   server: {
     host: "192.168.0.28",
-  },
+  },*/
 });

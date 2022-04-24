@@ -10,13 +10,21 @@
         aria-label="Search"
       />
     </form>
-    <div class="searchResult">
-      <SearchResultItem
-        v-for="(context, index) in searchResultItemContextList"
-        :searchResultItemContext="context"
+    <div class="searchResult" v-if="result && result.users">
+      <FeedItem
+        v-for="(context, index) in result.users"
+        :FeedItemContext="context"
         v-bind:key="index"
       />
     </div>
+    <!--
+    <div v-if="result && result.users">
+      <p v-for="user in result.users" :key="user.id">
+        id: {{ user.id }} name: {{ user.name }}
+      </p>
+    </div>
+    -->
+    <div></div>
     <div class="footer-spacer"></div>
     <div class="row button-bar">
       <div class="col-xs-3">
@@ -36,16 +44,11 @@
         <div>UUID: 123AS123123AED89103</div>
       </div>
     </div>
-    <div v-if="result && result.users">
-      <p v-for="user in result.users" :key="user.id">
-        id: {{ user.id }} name: {{ user.name }}
-      </p>
-    </div>
-    <div></div>
   </div>
 </template>
 <script setup lang="ts">
-import SearchResultItem from "@/components/SearchResultItem.vue";
+import FeedItem from "@/components/FeedItem.vue";
+import Post from "@/components/SearchResultItem.vue";
 import { ref, onMounted, nextTick } from "vue";
 import gql from "graphql-tag";
 import { useQuery } from "@vue/apollo-composable";
@@ -89,17 +92,16 @@ const CHARACTERS_QUERY = gql`
   query Query {
     users {
       id
-      name
-      age
+      firstName
       posts {
         id
         content
-        age
       }
     }
   }
 `;
 const { result } = useQuery(CHARACTERS_QUERY);
+console.log("result", result);
 </script>
 
 <style lang="stylus" scoped>
