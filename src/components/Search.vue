@@ -95,7 +95,7 @@ export default {
       { createPostInput: any }
     >(CREATE_POST, () => ({
       variables: {
-        createPostInput: { title: "", content: post.value, userId: 1 },
+        createPostInput: { title: "", content: post.value, userId: 713 },
       },
     }));
 

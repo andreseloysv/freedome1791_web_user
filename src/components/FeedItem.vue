@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <div>{{ FeedItemContext.author.firstName }}</div>
     <div class="image-container">
       <!--<img :src="FeedItemContext.imageUrl" /> -->
       <div class="title">{{ FeedItemContext.title }}</div>
@@ -35,9 +36,12 @@
 </template>
 
 <script setup lang="ts">
+import { User } from "./Post";
+
 export interface FeedItemContext {
   title: string;
   content: string;
+  author: User;
   //imageUrl: string;
   //domain: string;
   //viewsCount: string;
@@ -51,6 +55,10 @@ defineProps<{
 <style lang="stylus" scoped>
 .container
   margin: 40px 0
+  &.post
+      border: solid 2px #4d4d4d;
+      border-radius: 16px;
+      padding: 32px;
 .image-container
   position relative
   border-radius: 32px
