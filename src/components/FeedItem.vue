@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { User } from "./Post";
+import type { User } from "./Post";
 
 export interface FeedItemContext {
   title: string;

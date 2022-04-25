@@ -51,7 +51,7 @@
 <script lang="ts">
 import FeedItem from "@/components/FeedItem.vue";
 import Post from "@/components/SearchResultItem.vue";
-import { ref, onMounted } from "vue";
+import { ref, defineComponent } from "vue";
 import gql from "graphql-tag";
 import { useMutation, useQuery, useResult } from "@vue/apollo-composable";
 
@@ -68,7 +68,7 @@ const CHARACTERS_QUERY = gql`
     }
   }
 `;
-export default {
+export default defineComponent({
   name: "Search",
   props: ["msg"],
   components: {
@@ -113,8 +113,7 @@ export default {
       refetch,
     };
   },
-  mounted() {},
-};
+});
 interface SearchResultItemContext {
   title: string;
   description: string;
