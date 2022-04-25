@@ -59,6 +59,7 @@ const CHARACTERS_QUERY = gql`
   query Query {
     openFeed {
       content
+      dateIni
       author {
         firstName
       }

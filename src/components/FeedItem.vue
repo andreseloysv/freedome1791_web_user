@@ -1,6 +1,9 @@
 <template>
-  <div class="container">
-    <div>{{ FeedItemContext.author.firstName }}</div>
+  <div class="container post">
+    <div>
+      <span class="author-name">{{ FeedItemContext.author.firstName }}</span> -
+      <span class="author-name">{{ formatDate(FeedItemContext.dateIni) }}</span>
+    </div>
     <div class="image-container">
       <!--<img :src="FeedItemContext.imageUrl" /> -->
       <div class="title">{{ FeedItemContext.title }}</div>
@@ -42,6 +45,7 @@ export interface FeedItemContext {
   title: string;
   content: string;
   author: User;
+  dateIni: string;
   //imageUrl: string;
   //domain: string;
   //viewsCount: string;
@@ -50,6 +54,11 @@ export interface FeedItemContext {
 defineProps<{
   FeedItemContext: FeedItemContext;
 }>();
+function formatDate(dateString: string) {
+  const date = new Date(dateString);
+  // Then specify how you want your dates to be formatted
+  return new Intl.DateTimeFormat("default", { dateStyle: "long" }).format(date);
+}
 </script>
 
 <style lang="stylus" scoped>
@@ -59,6 +68,8 @@ defineProps<{
       border: solid 2px #4d4d4d;
       border-radius: 16px;
       padding: 32px;
+      & .author-name
+        font-weight: bold
 .image-container
   position relative
   border-radius: 32px
