@@ -1,6 +1,6 @@
 <template>
   <div class="greetings">
-    <form action="." class="search-form" role="search">
+    <!--<form action="." class="search-form" role="search">
       <input
         ref="searchInput"
         type="search"
@@ -9,21 +9,23 @@
         placeholder="escribe aqui"
         aria-label="Search"
       />
-    </form>
-    <div class="searchResult" v-if="result && result.users">
+    </form>-->
+    <input
+      ref="postInput"
+      type="text"
+      class="post-input"
+      placeholder="Postea algo"
+      aria-label="Post"
+      v-model="post"
+    />
+    <input type="button" id="new-post" value="Enviar" @click="newPostEvent" />
+    <div v-if="result" class="searchResult">
       <FeedItem
-        v-for="(context, index) in result.users"
+        v-for="(context, index) in result.openFeed"
         :FeedItemContext="context"
         v-bind:key="index"
       />
     </div>
-    <!--
-    <div v-if="result && result.users">
-      <p v-for="user in result.users" :key="user.id">
-        id: {{ user.id }} name: {{ user.name }}
-      </p>
-    </div>
-    -->
     <div></div>
     <div class="footer-spacer"></div>
     <div class="row button-bar">
@@ -46,20 +48,73 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
+<script lang="ts">
 import FeedItem from "@/components/FeedItem.vue";
 import Post from "@/components/SearchResultItem.vue";
-import { ref, onMounted, nextTick } from "vue";
+import { ref, onMounted } from "vue";
 import gql from "graphql-tag";
-import { useQuery } from "@vue/apollo-composable";
+import { useMutation, useQuery, useResult } from "@vue/apollo-composable";
 
-const searchInput = ref();
+const CHARACTERS_QUERY = gql`
+  query Query {
+    openFeed {
+      content
+      author {
+        firstName
+      }
+      topic {
+        name
+      }
+    }
+  }
+`;
+export default {
+  name: "Search",
+  props: ["msg"],
+  components: {
+    FeedItem,
+    Post,
+  },
+  setup(props: any) {
+    const searchInput = ref();
+    let post = ref("hola");
+    const { result, loading, error, refetch } = useQuery(CHARACTERS_QUERY);
 
-onMounted(() => {});
+    const feed = useResult(result);
+    const CREATE_POST = gql`
+      mutation Mutation($createPostInput: CreatePostInput) {
+        createPost(createPostInput: $createPostInput) {
+          title
+          content
+        }
+      }
+    `;
 
-defineProps<{
-  msg: string;
-}>();
+    const { mutate: createPost } = useMutation<
+      { createPost: any },
+      { createPostInput: any }
+    >(CREATE_POST, () => ({
+      variables: {
+        createPostInput: { title: "", content: post.value, userId: 1 },
+      },
+    }));
+
+    async function newPostEvent() {
+      console.log("new Post text: ", post.value);
+      createPost();
+      console.log("before: useQuery(CHARACTERS_QUERY)");
+      refetch();
+    }
+
+    return {
+      result,
+      post,
+      newPostEvent,
+      refetch,
+    };
+  },
+  mounted() {},
+};
 interface SearchResultItemContext {
   title: string;
   description: string;
@@ -68,40 +123,6 @@ interface SearchResultItemContext {
   viewsCount: string;
   howOld: string;
 }
-const searchResultItemContextList: SearchResultItemContext[] = [
-  {
-    title: "Anarcocapitalismo - Qué es, definición y concepto",
-    description:
-      "El anarcocapitalismo es una corriente que propone la eliminación del estado como agente económico, la supresión total de los impuestos",
-    imageUrl: "/img/axel_kaiser.jpeg",
-    domain: "https://economipedia.com",
-    viewsCount: "2 Millions",
-    howOld: "2 Months",
-  },
-  {
-    title: "Anarcocapitalismo - Economia - InfoEscola",
-    description:
-      "Bandeira do anarcocapitalismo: o amarelo representa o capitalismo, e o preto a anarquia. Há ainda o Anarcocapitalismo Utilitarista, desenvolvido pelo economista",
-    imageUrl: "/img/milei.jpeg",
-    domain: "https://www.infoescola.com",
-    viewsCount: "1 Millions",
-    howOld: "2 Years",
-  },
-];
-const CHARACTERS_QUERY = gql`
-  query Query {
-    users {
-      id
-      firstName
-      posts {
-        id
-        content
-      }
-    }
-  }
-`;
-const { result } = useQuery(CHARACTERS_QUERY);
-console.log("result", result);
 </script>
 
 <style lang="stylus" scoped>
