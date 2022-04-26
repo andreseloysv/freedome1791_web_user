@@ -18,7 +18,27 @@
       aria-label="Post"
       v-model="post"
     />
-    <input type="button" id="new-post" value="Enviar" @click="newPostEvent" />
+    <input
+      type="button"
+      class="create-post"
+      id="new-post"
+      value="Enviar"
+      @click="newPostEvent"
+    />
+    <div class="emotions-container">
+      <div class="emotion-container">
+        <div class="emotion-option">🔥</div>
+      </div>
+      <div class="emotion-container">
+        <div class="emotion-option">❤️</div>
+      </div>
+      <div class="emotion-container">
+        <div class="emotion-option">💡</div>
+      </div>
+      <div class="emotion-container">
+        <div class="emotion-option">🤮</div>
+      </div>
+    </div>
     <div v-if="result" class="searchResult">
       <FeedItem
         v-for="(context, index) in result.openFeed"
@@ -162,6 +182,27 @@ h1 {
   border: none
   font-weight: bold
 
+.post-input
+  border-radius: 8px
+  border: 3px #6c6c6c solid
+  height 52px
+  width 100%
+  font-size: 16px
+  padding: 0 14px
+
+.create-post
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  box-shadow: 0 0 10px 0 #0097f078;
+  border: 1px solid #8f8f8f;
+  border-radius: 16px;
+  padding: 16px 32px;
+  float: right;
+  margin: 20px 0 0 0;
+  cursor: pointer;
+  background: linear-gradient(to left bottom,#08ae9e,#0aa,#00a6b5,#00a1bc,#009bc1,#0095c3,#008ec5,#1287c5,#217fc5,#3275c3,#446cbf,#5461b9);
+
 @media (min-width: 1024px) {
   .greetings h1,
   .greetings h3 {
@@ -243,4 +284,28 @@ input:checked + .slider:before {
   padding: 10px 0 0 0
   z-index 10
   width 100%
+
+.emotions-container
+  display: flex
+  & .emotion-container
+      border: solid 1px black;
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      margin: 20px 20px 0px 0;
+      box-shadow: 0 0 10px 0px #3d3d3d85;
+      & .emotion-option
+          font-size: 30px;
+          text-align: center;
+          top: 50%;
+          transform: translateY(-50%);
+
+@media only screen and (max-width: 768px)
+  .emotions-container
+    & .emotion-container
+        width: 40px;
+        height: 40px;
+        margin: 25px 4px;
+      & .emotion-option
+          font-size: 20px;
 </style>

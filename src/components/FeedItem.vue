@@ -68,6 +68,7 @@ function formatDate(dateString: string) {
       border: solid 2px #4d4d4d;
       border-radius: 16px;
       padding: 32px;
+      width: auto
       & .author-name
         font-weight: bold
 .image-container
@@ -116,4 +117,12 @@ function formatDate(dateString: string) {
 
 .domain
   font-weight: bold
+
+@media only screen and (max-width: 768px)
+  .container
+    margin: 20px 0
+    &.post
+      border: solid 2px #4d4d4d;
+      border-radius: 16px;
+      padding: 8px 16px 8px 16px
 </style>
