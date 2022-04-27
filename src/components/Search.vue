@@ -10,7 +10,9 @@
         aria-label="Search"
       />
     </form>-->
+    <span>{{ user ? `Bienvenido ${user.firstName}` : "" }}</span>
     <input
+      v-if="user && !!user.id"
       ref="postInput"
       type="text"
       class="post-input"
@@ -66,6 +68,21 @@
         <div>UUID: 123AS123123AED89103</div>
       </div>
     </div>
+    <div
+      id="g_id_onload"
+      data-client_id="105692513096-5g604vtaln16ejvkfgq9mdphqp3nqpl2.apps.googleusercontent.com"
+      data-login_uri="https://fos1791.herokuapp.com/your_login_endpoint"
+      data-auto_prompt="false"
+    ></div>
+    <div
+      class="g_id_signin"
+      data-type="standard"
+      data-size="large"
+      data-theme="outline"
+      data-text="sign_in_with"
+      data-shape="rectangular"
+      data-logo_alignment="left"
+    ></div>
   </div>
 </template>
 <script lang="ts">
@@ -89,6 +106,14 @@ const CHARACTERS_QUERY = gql`
     }
   }
 `;
+const LOGIN_QUERY = gql`
+  query GoogleLogin($token: String) {
+    googleLogin(token: $token) {
+      id
+      firstName
+    }
+  }
+`;
 export default defineComponent({
   name: "Search",
   props: ["msg"],
@@ -98,7 +123,9 @@ export default defineComponent({
   },
   setup(props: any) {
     const searchInput = ref();
-    let post = ref("hola");
+    let post = ref("");
+    let credential = ref("");
+    let user: any = ref({});
     const { result, loading, error, refetch } = useQuery(CHARACTERS_QUERY);
 
     const feed = useResult(result);
@@ -116,7 +143,11 @@ export default defineComponent({
       { createPostInput: any }
     >(CREATE_POST, () => ({
       variables: {
-        createPostInput: { title: "", content: post.value, userId: 713 },
+        createPostInput: {
+          title: "",
+          content: post.value,
+          userId: user.value.id,
+        },
       },
     }));
 
@@ -126,10 +157,51 @@ export default defineComponent({
       console.log("before: useQuery(CHARACTERS_QUERY)");
       refetch();
     }
+    const {
+      result: loginResult,
+      refetch: loginRefetch,
+      onResult,
+    } = useQuery(
+      LOGIN_QUERY,
+      () => ({
+        token: credential.value,
+      }),
+      () => ({
+        enabled: !!credential.value,
+      })
+    );
+
+    onResult((queryResult) => {
+      if (queryResult.data) {
+        user.value = queryResult.data.googleLogin;
+      }
+    });
+
+    function handleCredentialResponse(response: any) {
+      console.log("Encoded JWT ID token: " + response.credential);
+      credential.value = response.credential;
+      loginRefetch();
+      //user.value = loginResult;
+      console.log("user: ", user);
+    }
+    window.onload = () => {
+      google.accounts.id.initialize({
+        client_id:
+          "105692513096-5g604vtaln16ejvkfgq9mdphqp3nqpl2.apps.googleusercontent.com",
+        callback: handleCredentialResponse,
+      });
+      google.accounts.id.renderButton(
+        document.getElementById("buttonDiv"),
+        { theme: "outline", size: "large" } // customization attributes
+      );
+      google.accounts.id.prompt(); // also display the One Tap dialog
+    };
 
     return {
       result,
       post,
+      user,
+      handleCredentialResponse,
       newPostEvent,
       refetch,
     };
