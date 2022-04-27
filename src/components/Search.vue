@@ -10,7 +10,7 @@
         aria-label="Search"
       />
     </form>-->
-    <span>{{ user ? `Bienvenido ${user.firstName}` : "" }}</span>
+    <span>{{ user && user.firstName ? `Bienvenido ${user.firstName}` : "" }}</span>
     <input
       v-if="user && !!user.id"
       ref="postInput"
@@ -185,16 +185,16 @@ export default defineComponent({
       console.log("user: ", user);
     }
     window.onload = () => {
-      google.accounts.id.initialize({
+      (window as any).google.accounts.id.initialize({
         client_id:
           "105692513096-5g604vtaln16ejvkfgq9mdphqp3nqpl2.apps.googleusercontent.com",
         callback: handleCredentialResponse,
       });
-      google.accounts.id.renderButton(
+      (window as any).google.accounts.id.renderButton(
         document.getElementById("buttonDiv"),
         { theme: "outline", size: "large" } // customization attributes
       );
-      google.accounts.id.prompt(); // also display the One Tap dialog
+      (window as any).google.accounts.id.prompt(); // also display the One Tap dialog
     };
 
     return {
