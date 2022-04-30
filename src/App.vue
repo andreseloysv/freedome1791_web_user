@@ -1,8 +1,6 @@
 <template>
   <header>
-    <div class="wrapper">
-      <Search msg="Internet" />
-    </div>
+    <div class="wrapper"></div>
   </header>
 
   <RouterView />
@@ -10,7 +8,6 @@
 
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
-import Search from "@/components/Search.vue";
 </script>
 
 <style>
