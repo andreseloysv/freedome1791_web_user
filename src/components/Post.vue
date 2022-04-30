@@ -1,29 +1,24 @@
 <template>
-  <div class="container">
+  <div class="container post">
+    <div>
+      <a :href="`/profile/${postItemContext.author.id}`">
+        <span class="author-name">{{
+          postItemContext.author.firstName
+        }}</span></a
+      >
+      -
+      <span class="author-name">{{ formatDate(postItemContext.dateIni) }}</span>
+    </div>
     <div class="image-container">
-      <img :src="searchResultItemContext.imageUrl" />
-      <div class="title">{{ searchResultItemContext.title }}</div>
+      <div class="title">{{ postItemContext.title }}</div>
     </div>
     <div class="row">
       <div class="col-xs-1">
-        <div class="logo-container">
-          <img
-            width="40"
-            class="logo"
-            :src="searchResultItemContext.imageUrl"
-          />
-        </div>
+        <div class="logo-container"></div>
       </div>
       <div class="col-xs-10">
         <div class="description">
-          {{ searchResultItemContext.description }}
-        </div>
-        <span class="domain">{{ searchResultItemContext.domain }}</span>
-        <div class="result-extra-details">
-          <span class="viewsCount">{{
-            searchResultItemContext.viewsCount
-          }}</span>
-          <span class="howOld">{{ searchResultItemContext.howOld }}</span>
+          {{ postItemContext.content }}
         </div>
       </div>
     </div>
@@ -31,22 +26,37 @@
 </template>
 
 <script setup lang="ts">
-export interface SearchResultItemContext {
+import { onMounted } from "vue-demi";
+import type { User } from "./Post";
+
+export interface PostItemContext {
   title: string;
-  description: string;
-  imageUrl: string;
-  domain: string;
-  viewsCount: string;
-  howOld: string;
+  content: string;
+  author: User;
+  dateIni: string;
 }
-defineProps<{
-  searchResultItemContext: SearchResultItemContext;
+const props = defineProps<{
+  postItemContext: PostItemContext;
 }>();
+onMounted(() => {
+  console.log("PostItemContext", props.postItemContext);
+});
+function formatDate(dateString: string) {
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat("default").format(date);
+}
 </script>
 
 <style lang="stylus" scoped>
 .container
   margin: 40px 0
+  &.post
+      border: solid 2px #4d4d4d;
+      border-radius: 16px;
+      padding: 32px;
+      width: auto
+      & .author-name
+        font-weight: bold
 .image-container
   position relative
   border-radius: 32px
@@ -93,4 +103,12 @@ defineProps<{
 
 .domain
   font-weight: bold
+
+@media only screen and (max-width: 768px)
+  .container
+    margin: 20px 0
+    &.post
+      border: solid 2px #4d4d4d;
+      border-radius: 16px;
+      padding: 8px 16px 8px 16px
 </style>

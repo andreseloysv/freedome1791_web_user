@@ -1,7 +1,12 @@
 <template>
   <div class="container post">
     <div>
-      <span class="author-name">{{ FeedItemContext.author.firstName }}</span> -
+      <a :href="`/profile/${FeedItemContext.author.id}`">
+        <span class="author-name">{{
+          FeedItemContext.author.firstName
+        }}</span></a
+      >
+      -
       <span class="author-name">{{ formatDate(FeedItemContext.dateIni) }}</span>
     </div>
     <div class="image-container">

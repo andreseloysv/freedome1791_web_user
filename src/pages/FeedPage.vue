@@ -1,6 +1,5 @@
 <template>
   <div class="greetings">
-    <h2>Post</h2>
     <!--<form action="." class="search-form" role="search">
       <input
         ref="searchInput"
@@ -14,6 +13,7 @@
     <span>{{
       user && user.firstName ? `Bienvenido ${user.firstName}` : ""
     }}</span>
+    <add-post v-if="user && user.id" :user="user" @posted="refetch"></add-post>
     <div v-if="result" class="searchResult">
       <FeedItem
         v-for="(context, index) in result.openFeed"
@@ -64,6 +64,7 @@ import Post from "@/components/SearchResultItem.vue";
 import { ref, defineComponent } from "vue";
 import gql from "graphql-tag";
 import { useQuery, useResult } from "@vue/apollo-composable";
+import AddPost from "@/components/AddPost.vue";
 
 const CHARACTERS_QUERY = gql`
   query Query {
@@ -71,6 +72,7 @@ const CHARACTERS_QUERY = gql`
       content
       dateIni
       author {
+        id
         firstName
       }
       topic {
@@ -88,11 +90,12 @@ const LOGIN_QUERY = gql`
   }
 `;
 export default defineComponent({
-  name: "Post",
+  name: "FeedPage",
   props: ["msg"],
   components: {
     FeedItem,
     Post,
+    AddPost,
   },
   setup(props: any) {
     const searchInput = ref();

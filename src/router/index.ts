@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Feed from "../pages/Feed.vue";
-import Profile from "../pages/Profile.vue";
-import Post from "../pages/Post.vue";
+import Feed from "../pages/FeedPage.vue";
+import Profile from "../pages/ProfilePage.vue";
+import Post from "../pages/PostPage.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,17 +12,18 @@ const router = createRouter({
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import("../pages/Feed.vue"),
+      component: () => import("../pages/FeedPage.vue"),
     },
     {
-      path: "/profile",
+      path: "/profile/:id",
       name: "profile",
-      component: () => import("../pages/Profile.vue"),
+      component: () => import("../pages/ProfilePage.vue"),
     },
     {
-      path: "/post",
+      path: "/post/:id",
+      props: true,
       name: "post",
-      component: () => import("../pages/Post.vue"),
+      component: () => import("../pages/PostPage.vue"),
     },
   ],
 });
