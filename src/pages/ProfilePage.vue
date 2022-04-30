@@ -70,8 +70,8 @@ export default defineComponent({
     onResult((queryResult) => {
       if (queryResult.data) {
         meta.og = {
-          title: `${queryResult.data.post.author.firstName} ${queryResult.data.post.author.secondName} en FOS1791`,
-          description: `El ultimo post de ${queryResult.data.post.author.firstName} ${queryResult.data.post.author.secondName} fue 👉 ${queryResult.data.post.content}`,
+          title: `${queryResult.data.postsByUser[0].author.firstName} ${queryResult.data.postsByUser[0].author.secondName} en FOS1791`,
+          description: `El ultimo post de ${queryResult.data.postsByUser[0].author.firstName} ${queryResult.data.postsByUser[0].author.secondName} fue 👉 ${queryResult.data.postsByUser[0].content}`,
         };
       }
     });

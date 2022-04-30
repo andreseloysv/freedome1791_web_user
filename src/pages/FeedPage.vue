@@ -139,7 +139,7 @@ export default defineComponent({
         user.value = queryResult.data.googleLogin;
         meta.og = {
           title: `Comparte tus ideas de forma libre en FOS1791`,
-          description: `El ultimo post en FOS1791 fue 👉 ${queryResult.data.post.content}`,
+          description: `El ultimo post en FOS1791 fue 👉 ${queryResult.data.openFeed[0].content}`,
         };
       }
     });
