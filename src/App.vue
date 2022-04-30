@@ -1,5 +1,8 @@
 <template>
   <header>
+    <div>
+      <h1><a href="/">Home</a></h1>
+    </div>
     <div class="wrapper"></div>
   </header>
 

@@ -17,7 +17,7 @@
     <div v-if="result" class="searchResult">
       <FeedItem
         v-for="(context, index) in result.openFeed"
-        :FeedItemContext="context"
+        :feedItemContext="context"
         v-bind:key="index"
       />
     </div>
@@ -69,6 +69,7 @@ import AddPost from "@/components/AddPost.vue";
 const CHARACTERS_QUERY = gql`
   query Query {
     openFeed {
+      id
       content
       dateIni
       author {

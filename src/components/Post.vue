@@ -1,5 +1,5 @@
 <template>
-  <div class="container post">
+  <div class="container post" @click="openPost(postItemContext.id)">
     <div>
       <a :href="`/profile/${postItemContext.author.id}`">
         <span class="author-name">{{
@@ -30,6 +30,7 @@ import { onMounted } from "vue-demi";
 import type { User } from "./Post";
 
 export interface PostItemContext {
+  id: string;
   title: string;
   content: string;
   author: User;
@@ -45,12 +46,16 @@ function formatDate(dateString: string) {
   const date = new Date(dateString);
   return new Intl.DateTimeFormat("default").format(date);
 }
+function openPost(id: string) {
+  window.location.href = `/post/${id}`;
+}
 </script>
 
 <style lang="stylus" scoped>
 .container
   margin: 40px 0
   &.post
+      cursor pointer
       border: solid 2px #4d4d4d;
       border-radius: 16px;
       padding: 32px;

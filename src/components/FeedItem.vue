@@ -1,17 +1,17 @@
 <template>
-  <div class="container post">
+  <div class="container post" @click="openPost(feedItemContext.id)">
     <div>
-      <a :href="`/profile/${FeedItemContext.author.id}`">
+      <a :href="`/profile/${feedItemContext.author.id}`">
         <span class="author-name">{{
-          FeedItemContext.author.firstName
+          feedItemContext.author.firstName
         }}</span></a
       >
       -
-      <span class="author-name">{{ formatDate(FeedItemContext.dateIni) }}</span>
+      <span class="author-name">{{ formatDate(feedItemContext.dateIni) }}</span>
     </div>
     <div class="image-container">
       <!--<img :src="FeedItemContext.imageUrl" /> -->
-      <div class="title">{{ FeedItemContext.title }}</div>
+      <div class="title">{{ feedItemContext.title }}</div>
     </div>
     <div class="row">
       <div class="col-xs-1">
@@ -27,7 +27,7 @@
       </div>
       <div class="col-xs-10">
         <div class="description">
-          {{ FeedItemContext.content }}
+          {{ feedItemContext.content }}
         </div>
         <!--
         <span class="domain">{{ FeedItemContext.domain }}</span>
@@ -47,6 +47,7 @@
 import type { User } from "./Post";
 
 export interface FeedItemContext {
+  id: string;
   title: string;
   content: string;
   author: User;
@@ -57,12 +58,15 @@ export interface FeedItemContext {
   //howOld: string;
 }
 defineProps<{
-  FeedItemContext: FeedItemContext;
+  feedItemContext: FeedItemContext;
 }>();
 function formatDate(dateString: string) {
   const date = new Date(dateString);
   // Then specify how you want your dates to be formatted
   return new Intl.DateTimeFormat("default").format(date);
+}
+function openPost(id: string) {
+  window.location.href = `/post/${id}`;
 }
 </script>
 
@@ -70,6 +74,7 @@ function formatDate(dateString: string) {
 .container
   margin: 40px 0
   &.post
+      cursor pointer
       border: solid 2px #4d4d4d;
       border-radius: 16px;
       padding: 32px;
