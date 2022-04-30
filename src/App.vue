@@ -1,4 +1,9 @@
 <template>
+  <metainfo>
+    <template v-slot:title="{ content }">{{
+      content ? `${content} | SITE_NAME` : `SITE_NAME`
+    }}</template>
+  </metainfo>
   <header>
     <div>
       <h1><a href="/">Home</a></h1>

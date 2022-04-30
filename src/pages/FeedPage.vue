@@ -65,6 +65,7 @@ import { ref, defineComponent } from "vue";
 import gql from "graphql-tag";
 import { useQuery, useResult } from "@vue/apollo-composable";
 import AddPost from "@/components/AddPost.vue";
+import { useMeta } from "vue-meta";
 
 const CHARACTERS_QUERY = gql`
   query Query {
@@ -114,6 +115,7 @@ export default defineComponent({
         }
       }
     `;
+
     async function newPostEvent() {
       console.log("Reload feed");
       refetch();
@@ -131,10 +133,14 @@ export default defineComponent({
         enabled: !!credential.value,
       })
     );
-
+    const { meta } = useMeta({});
     onResult((queryResult) => {
       if (queryResult.data) {
         user.value = queryResult.data.googleLogin;
+        meta.og = {
+          title: `Comparte tus ideas de forma libre en FOS1791`,
+          description: `El ultimo post en FOS1791 fue 👉 ${queryResult.data.post.content}`,
+        };
       }
     });
 

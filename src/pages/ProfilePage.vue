@@ -18,6 +18,7 @@ import { ref, defineComponent, onMounted } from "vue";
 import gql from "graphql-tag";
 import { useQuery } from "@vue/apollo-composable";
 import { useRoute } from "vue-router";
+import { useMeta } from "vue-meta";
 
 const GET_USER_POSTS_QUERY = gql`
   query PostsByUser($userId: ID!) {
@@ -46,7 +47,7 @@ export default defineComponent({
     const getUserPostsQueryvariables = ref({
       userId: userId,
     });
-    const { result, loading, error, refetch } = useQuery(
+    const { result, loading, error, refetch, onResult } = useQuery(
       GET_USER_POSTS_QUERY,
       getUserPostsQueryvariables,
       () => ({
@@ -66,6 +67,15 @@ export default defineComponent({
       userId.value = route.params.id.toString();
       enabledGetPostsByUserQuery.value = true;
     });
+    onResult((queryResult) => {
+      if (queryResult.data) {
+        meta.og = {
+          title: `${queryResult.data.post.author.firstName} ${queryResult.data.post.author.secondName} en FOS1791`,
+          description: `El ultimo post de ${queryResult.data.post.author.firstName} ${queryResult.data.post.author.secondName} fue 👉 ${queryResult.data.post.content}`,
+        };
+      }
+    });
+    const { meta } = useMeta({});
     return {
       result,
       userId,
