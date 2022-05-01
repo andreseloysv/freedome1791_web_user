@@ -29,6 +29,9 @@
         <div class="description">
           {{ feedItemContext.content }}
         </div>
+        <div class="options">
+          <respond-post></respond-post>
+        </div>
         <!--
         <span class="domain">{{ FeedItemContext.domain }}</span>
         <div class="result-extra-details">
@@ -45,6 +48,7 @@
 
 <script setup lang="ts">
 import type { User } from "./Post";
+import RespondPost from "./RespondPost.vue";
 
 export interface FeedItemContext {
   id: string;
@@ -60,6 +64,7 @@ export interface FeedItemContext {
 defineProps<{
   feedItemContext: FeedItemContext;
 }>();
+
 function formatDate(dateString: string) {
   const date = new Date(dateString);
   // Then specify how you want your dates to be formatted
@@ -81,6 +86,9 @@ function openPost(id: string) {
       width: auto
       & .author-name
         font-weight: bold
+      & .options
+        margin: 12px 0 0 0;
+        
 .image-container
   position relative
   border-radius: 32px
