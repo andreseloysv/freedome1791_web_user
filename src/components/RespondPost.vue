@@ -1,46 +1,33 @@
 <template>
   <div
     class="response-button noselect"
-    v-if="!displayResponseBox"
-    @click.stop="showResponseBox($event)"
   >
     Responder
-  </div>
-  <div v-if="displayResponseBox">
-    <textarea
-      @click.stop=""
-      class="reponse-text noselect"
-      placeholder="escribe tu respuesta aqui"
-      v-model="responseText"
-    >
-    </textarea>
-    <div>{{ responseText.length }}/200 Letras</div>
-    <div class="cancel-button noselect" @click.stop="showResponseBox($event)">
-      Cancelar
-    </div>
-    <div class="response-button noselect" @click.stop="showResponseBox($event)">
-      Responder
-    </div>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-let displayResponseBox = ref(false);
-let responseText = ref("");
+
 export default defineComponent({
-  name: "AddPost",
+  name: "ResponsePost",
   props: {
     user: Object,
   },
+
   emits: ["posted"],
   methods: {
     showResponseBox(event: any) {
       event.preventDefault();
-      displayResponseBox.value = !displayResponseBox.value;
-      responseText.value = "";
+      this.displayResponseBox = !this.displayResponseBox;
+      this.responseText = "";
     },
+    saveResponse(event: any){
+        console.log("hola", this.responseText);
+    }
   },
   setup(props: any, { emit }) {
+    let displayResponseBox = ref(false);
+    let responseText = ref("");
     return {
       displayResponseBox,
       responseText,

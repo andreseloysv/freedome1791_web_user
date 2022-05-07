@@ -1,13 +1,13 @@
 export class Post {
   id?: number;
   title?: string;
-  content: string = "";
+  content = "";
   author?: User;
   authorId?: number;
   parentPostId?: number;
   responses?: Post[];
   topic?: Topic;
-  dateIni: string = "";
+  dateIni = "";
 }
 export class User {
   id?: number;

@@ -88,7 +88,7 @@ function openPost(id: string) {
         font-weight: bold
       & .options
         margin: 12px 0 0 0;
-        
+
 .image-container
   position relative
   border-radius: 32px
