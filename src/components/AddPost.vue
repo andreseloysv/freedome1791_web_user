@@ -32,7 +32,6 @@
   </div>
 </template>
 <script lang="ts">
-import Post from "@/components/Post.vue";
 import { ref, defineComponent } from "vue";
 import gql from "graphql-tag";
 import { useMutation } from "@vue/apollo-composable";
@@ -46,9 +45,6 @@ export default defineComponent({
   name: "AddPost",
   props: {
     user: Object,
-  },
-  components: {
-    Post,
   },
   emits: ["posted"],
   computed: {

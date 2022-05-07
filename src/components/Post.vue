@@ -27,23 +27,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import type { User } from "./Post";
 import AddPost from "@/components/AddPost.vue";
-
-export interface PostItemContext {
+interface PostItemContext {
   id: string;
   title: string;
   content: string;
   author: User;
   dateIni: string;
 }
-
 export default defineComponent({
   name: "Post",
   props: {
     user: Object,
-    postItemContext: PostItemContext,
+    postItemContext: Object,
   },
   components: {
     AddPost,
